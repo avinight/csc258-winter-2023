@@ -1,0 +1,315 @@
+\documentclass{article}
+\usepackage{tikz}
+%% Page Margins %%
+\usepackage{geometry}
+\geometry{
+    top = 0.75in,
+    bottom = 0.75in,
+    right = 0.75in,
+    left = 0.75in,
+}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{parskip}
+
+\title{Lab 6: Finite State Machines}
+
+% TODO: Enter your name
+\author{Frederick Meneses}
+
+\begin{document}
+\maketitle
+
+\section{Part I}
+
+\begin{enumerate}
+
+\item Complete Table~\ref{t:part1_state_encodings} below.
+
+\begin{table}[ht!]
+\caption{State Encodings}
+\label{t:part1_state_encodings}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+State & Encoding \\ \hline
+A/0 & 101 \\ \hline
+B/0 & 001 \\ \hline
+C/0 & 000 \\ \hline
+D/0 & 011 \\ \hline
+E/0 & 110 \\ \hline
+F/1 & 111 \\ \hline
+G/1 & 100 \\ \hline
+\end{tabular}
+\end{table}
+
+\item Complete Table~\ref{t:part1_encoded_transition_table} below.
+
+\begin{table}[ht!]
+\caption{Encoded State Transition Table for Robo-Snail}
+\label{t:part1_encoded_transition_table}
+\centering
+\begin{tabular}{cccc|ccc}
+\multicolumn{3}{c}{$curr\_state[2..0]$}&$w$&\multicolumn{3}{c}{$next\_state[2..0]$}\\
+\hline
+$0$&$0$&$0$&$0$&$1$&$1$&$0$\\
+$0$&$0$&$0$&$1$&$0$&$1$&$1$\\
+$0$&$0$&$1$&$0$&$1$&$0$&$1$\\
+$0$&$0$&$1$&$1$&$0$&$0$&$0$\\
+$0$&$1$&$0$&$0$&$-$&$-$&$-$\\
+$0$&$1$&$0$&$1$&$-$&$-$&$-$\\
+$0$&$1$&$1$&$0$&$1$&$1$&$0$\\
+$0$&$1$&$1$&$1$&$1$&$1$&$1$\\
+$1$&$0$&$0$&$0$&$1$&$0$&$1$\\
+$1$&$0$&$0$&$1$&$0$&$0$&$0$\\
+$1$&$0$&$1$&$0$&$1$&$0$&$1$\\
+$1$&$0$&$1$&$1$&$0$&$0$&$1$\\
+$1$&$1$&$0$&$0$&$1$&$0$&$1$\\
+$1$&$1$&$0$&$1$&$1$&$0$&$0$\\
+$1$&$1$&$1$&$0$&$1$&$1$&$0$\\
+$1$&$1$&$1$&$1$&$1$&$1$&$1$\\
+
+\end{tabular}
+\end{table}
+
+\item Derive equations for each of your next state outputs below.
+
+\begin{align*}
+    S'_0 &= next\_state_0 \cdot \overline{next\_state_1} \cdot next\_state_2 + \overline{next\_state_0} \cdot \overline{next\_state_1} \cdot next\_state_2 \\
+    S'_1 &= next\_state_0 \cdot \overline{next\_state_1} \cdot next\_state_2 + \overline{next\_state_0} \cdot \overline{next\_state_1} \cdot \overline{next\_state_2}   \\
+    S'_2 &= next\_state_0 \cdot next\_state_1 \cdot \overline{next\_state_2} + \overline{next\_state_0} \cdot next\_state_1 \cdot next\_state_2  \\
+    S'_3 &= next\_state_0 \cdot next\_state_1 \cdot \overline{next\_state_2}  + next\_state_0 \cdot next\_state_1 \cdot next\_state_2 \\
+    S'_4 &= next\_state_0 \cdot \overline{next\_state_1} \cdot next\_state_2 + next\_state_0 \cdot \overline{next\_state_1} \cdot \overline{next\_state_2} \\
+    S'_5 &= next\_state_0 \cdot next\_state_1 \cdot \overline{next\_state_2}  + next\_state_0 \cdot next\_state_1 \cdot next\_state_2 \\ \\
+    S'_6 &= next\_state_0 \cdot \overline{next\_state_1} \cdot next\_state_2 + \overline{next\_state_0} \cdot \overline{next\_state_1} \cdot \overline{next\_state_2}  \\
+\end{align*}
+
+\item Export the subcircuit schematic as an image and include it in your report.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{lab6_part1_next_state.png}
+    \caption{A schematic of part1\_state\_table.}
+    \label{f:part1_state_table}
+\end{figure}
+
+\item Complete Table~\ref{t:part1_output_table} below.
+
+\begin{table}[ht!]
+\caption{Encoded Output Table for Robo-Snail}
+\label{t:part1_output_table}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+State   & Output \\ \hline
+101 & 0\\ \hline
+001 & 0 \\ \hline
+000 & 0\\ \hline
+011 & 0\\ \hline
+110 & 0 \\ \hline
+111 & 1 \\ \hline
+100 & 1\\ \hline
+\end{tabular}
+\end{table}
+
+\item Derive the equation for your output logic below.
+
+$$Z = F + G = curr\_state_0 \cdot curr\_state_1 \cdot curr\_state_2 + curr\_state_0 \cdot \overline{curr\_state_1} \cdot \overline{curr\_state_2}$$
+
+\item Export the subcircuit schematic as an image and include it in your report.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{lab6_part1_output.png}
+    \caption{A schematic of part1\_FSM.}
+    \label{f:part1_FSM}
+\end{figure}
+\end{enumerate}
+
+\clearpage
+\section{Part II}
+
+\begin{enumerate}
+\item Complete Table~\ref{t:part2_encoded_transition_table} below.
+
+\begin{table}[ht!]
+\caption{Encoded State Transition Table for Part II}
+\label{t:part2_encoded_transition_table}
+\centering
+\begin{tabular}{cccc|ccccccccccccccc}
+\multicolumn{4}{c|}{$state[3..0]$}&$ld_a$&$ld_b$&$ld_c$&$ld_x$&\multicolumn{2}{c}{$alu_select_a[1..0]$}&\multicolumn{2}{c}{$alu_select_b[1..0]$}&$ld_alu_out$&$alu_op$&$ld_r$&\multicolumn{4}{c}{$next_state[3..0]$}\\
+\hline
+$0$&$0$&$0$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$1$\\
+$0$&$0$&$0$&$1$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$1$&$0$\\
+$0$&$0$&$1$&$0$&$0$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$1$&$1$\\
+$0$&$0$&$1$&$1$&$0$&$0$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$1$&$0$&$0$\\
+$0$&$1$&$0$&$0$&$0$&$1$&$0$&$0$&$0$&$1$&$1$&$1$&$1$&$1$&$0$&$0$&$1$&$0$&$1$\\
+$0$&$1$&$0$&$1$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$1$&$1$&$0$&$0$&$0$&$1$&$1$&$0$\\
+$0$&$1$&$1$&$0$&$1$&$0$&$0$&$0$&$1$&$0$&$1$&$1$&$1$&$1$&$0$&$0$&$1$&$1$&$1$\\
+$0$&$1$&$1$&$1$&$1$&$0$&$0$&$0$&$0$&$0$&$1$&$1$&$1$&$1$&$0$&$1$&$0$&$0$&$0$\\
+$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$1$&$0$&$0$&$1$&$0$&$0$&$0$&$0$\\
+$1$&$0$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$0$&$1$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$1$&$0$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$1$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+$1$&$1$&$1$&$1$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\
+
+\end{tabular}
+\end{table}
+
+
+\item Draw the state transition diagram and include it in Figure~\ref{f:part2_state_diagram}.
+
+\begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.3\textwidth]{lab6_part2_state_diagram.png}
+    \caption{The state transition diagram for Part II}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (29.5,-5.9) circle (3);
+\draw (29.5,-5.9) node {$0000$};
+\draw [black] (14.9,-11.1) circle (3);
+\draw (14.9,-11.1) node {$0001$};
+\draw [black] (13.6,-21.1) circle (3);
+\draw (13.6,-21.1) node {$0010$};
+\draw [black] (24.2,-24.7) circle (3);
+\draw (24.2,-24.7) node {$0011$};
+\draw [black] (26.8,-34.9) circle (3);
+\draw (26.8,-34.9) node {$0100$};
+\draw [black] (37.4,-32.8) circle (3);
+\draw (37.4,-32.8) node {$0101$};
+\draw [black] (48.9,-28.9) circle (3);
+\draw (48.9,-28.9) node {$0110$};
+\draw [black] (59.7,-24) circle (3);
+\draw (59.7,-24) node {$0111$};
+\draw [black] (66.7,-8.4) circle (3);
+\draw (66.7,-8.4) node {$1000$};
+\draw [black] (66.7,-8.4) circle (2.4);
+\draw [black] (26.67,-6.91) -- (17.73,-10.09);
+\fill [black] (17.73,-10.09) -- (18.65,-10.3) -- (18.31,-9.35);
+\draw (23.12,-9.03) node [below] {$1$};
+\draw [black] (14.51,-14.07) -- (13.99,-18.13);
+\fill [black] (13.99,-18.13) -- (14.59,-17.4) -- (13.59,-17.27);
+\draw (13.57,-15.96) node [left] {$1$};
+\draw [black] (16.44,-22.06) -- (21.36,-23.74);
+\fill [black] (21.36,-23.74) -- (20.76,-23) -- (20.44,-23.95);
+\draw (18,-23.43) node [below] {$1$};
+\draw [black] (24.94,-27.61) -- (26.06,-31.99);
+\fill [black] (26.06,-31.99) -- (26.35,-31.09) -- (25.38,-31.34);
+\draw (26.26,-29.33) node [right] {$1$};
+\draw [black] (29.74,-34.32) -- (34.46,-33.38);
+\fill [black] (34.46,-33.38) -- (33.58,-33.05) -- (33.77,-34.03);
+\draw (32.65,-34.44) node [below] {$1$};
+\draw [black] (40.24,-31.84) -- (46.06,-29.86);
+\fill [black] (46.06,-29.86) -- (45.14,-29.65) -- (45.46,-30.59);
+\draw (44.05,-31.38) node [below] {$1$};
+\draw [black] (51.63,-27.66) -- (56.97,-25.24);
+\fill [black] (56.97,-25.24) -- (56.03,-25.11) -- (56.45,-26.03);
+\draw (55.28,-26.96) node [below] {$1$};
+\draw [black] (60.93,-21.26) -- (65.47,-11.14);
+\fill [black] (65.47,-11.14) -- (64.69,-11.66) -- (65.6,-12.07);
+\draw (63.92,-17.2) node [right] {$1$};
+\draw [black] (26.512,-5.94) arc (298.49028:10.49028:2.25);
+\draw (22.7,-1.93) node [left] {$0$};
+\fill [black] (27.65,-3.55) -- (27.71,-2.61) -- (26.83,-3.09);
+\draw [black] (12.601,-9.191) arc (258.02342:-29.97658:2.25);
+\draw (11.17,-4.42) node [above] {$0$};
+\fill [black] (15.02,-8.11) -- (15.67,-7.44) -- (14.69,-7.23);
+\draw [black] (15.192,-18.571) arc (175.54962:-112.45038:2.25);
+\draw (19.99,-16.29) node [right] {$0$};
+\fill [black] (16.58,-20.82) -- (17.33,-21.39) -- (17.41,-20.39);
+\draw [black] (24.216,-21.712) arc (207.43495:-80.56505:2.25);
+\draw (28.21,-18.16) node [above] {$0$};
+\fill [black] (26.58,-22.89) -- (27.52,-22.97) -- (27.06,-22.08);
+\draw [black] (27.48,-31.99) arc (194.58634:-93.41366:2.25);
+\draw (32.09,-29.19) node [above] {$0$};
+\fill [black] (29.52,-33.67) -- (30.42,-33.95) -- (30.17,-32.98);
+\draw [black] (36.552,-29.935) arc (224.22236:-63.77764:2.25);
+\draw (39.01,-25.55) node [above] {$0$};
+\fill [black] (39.16,-30.38) -- (40.08,-30.18) -- (39.38,-29.47);
+\draw [black] (46.977,-26.612) arc (247.78148:-40.21852:2.25);
+\draw (46.59,-21.77) node [above] {$0$};
+\fill [black] (49.55,-25.98) -- (50.31,-25.43) -- (49.39,-25.05);
+\draw [black] (57.294,-22.227) arc (261.34871:-26.65129:2.25);
+\draw (55.61,-17.5) node [above] {$0$};
+\fill [black] (59.64,-21.01) -- (60.26,-20.3) -- (59.27,-20.15);
+\draw [black] (63.71,-8.2) -- (32.49,-6.1);
+\fill [black] (32.49,-6.1) -- (33.26,-6.65) -- (33.32,-5.66);
+\draw (48.01,-7.71) node [below] {$1$};
+\end{tikzpicture}
+    \label{f:part2_state_diagram}
+\end{figure}
+
+
+
+    \item Simulate your circuit using a variety of input settings.
+        
+    \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.65\textwidth]{lab6_part3_testcases.png}
+    \caption{Test Case for Part 2.}
+    \label{f:part2_testcase 1}
+\end{figure}
+    \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.65\textwidth]{lab6_part3_testcases1.png}
+    \caption{Test Case for Part 2.}
+    \label{f:part2_testcase 2}
+\end{figure}
+
+\end{enumerate}
+
+\newpage
+\section{Part III}
+\begin{enumerate}
+    \item Draw a schematic for the datapath of your circuit. It will be similar to the handout. You should show how you will initialize the registers, where the outputs are connected, and include all the control signals that you require.
+    
+    \item Draw the state diagram that controls your datapath.
+    
+    \begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.65\textwidth]{lab6_part3_statediagram.png}
+    \caption{State diagram that controls the datapath in Part 3.}
+    \label{f:part3_statediagram}
+\end{figure}
+
+    \item Draw the schematic for your controller module.
+    
+    \begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.65\textwidth]{lab6_part3_controller.png}
+    \caption{Controller Module in Part III.}
+    \label{f:part3_controller}
+\end{figure}
+    
+    \item Draw the top-level schematic showing how the datapath and controller are connected as well as the inputs and outputs to your top-level circuit.
+    
+    \begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.65\textwidth]{lab6_part3_schematics.png}
+    \caption{Top level schematics schematic in Part III.}
+    \label{f:part3_TLschematics}
+\end{figure}
+        
+    \item Simulate your circuit using a variety of input settings.
+        
+    \begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.65\textwidth]{lab6_part3_testcases.png}
+    \caption{Test Case for Part 3.}
+    \label{f:part3_testcase 1}
+\end{figure}
+
+        
+    \begin{figure}[ht!]
+    \centering
+    % \includegraphics[width=0.65\textwidth]{lab6_part3_testcases.png}
+    \caption{Test Case for Part 3.}
+    \label{f:part3_testcase 2}
+\end{figure}
+\end{enumerate}
+
+\end{document}

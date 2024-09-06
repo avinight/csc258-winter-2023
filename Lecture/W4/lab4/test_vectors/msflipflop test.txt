@@ -1,0 +1,6 @@
+# test vector
+D Clk Qa
+# Bad input combinations
+# 0 0 0
+# 0 1 0
+

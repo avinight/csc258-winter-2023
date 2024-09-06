@@ -1,0 +1,5 @@
+# test vector
+D Clk Qa Qb
+# Bad input
+# 0 0 0 0
+# 1 0 0 0
